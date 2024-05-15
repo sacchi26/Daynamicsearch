@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+    let root = document.getElementById("root");
+    let reactRoot = ReactDOM.createRoot(root);
+
+    const{useState , useEffect} = react
+
+
+    const UserProfile = ({user})=>{
+      return(
+        <div className = "user-profile">
+          <img src={user.avatar} alt=""/>
+          </div>
+      )
+    }
+
+    function App(){
+      const[users,setUsers] = useState([]);
+
+
+      useEffect(()=>{
+        fetchUsers();
+      },[])
+
+
+
+
+
+      const fetchUsers=async()=>{
+       try {
+         const response = await axios.get("https://reqres.in/api/users?page=2");
+         console.log(response.data.data)
+         setUsers(response.data.data)
+       } catch (error) {
+        console.log(error);
+       }
+      }
+      
+
+
+
+      return(
+        <div className="user-list">
+          {Users.map((user)=>(
+            <UserProfile key={user.id} user={user}/>
+
+          ))}
+          </div>
+      )
+    }
+
+    
+    reactRoot.render(<App/>);
+  </script>
+</html>
